@@ -73,9 +73,45 @@ numactl --cpunodebind=0 --membind=0 ./compare_numa
 numactl --cpunodebind=0 --membind=1 ./compare_numa
 ```
 
----
+## Execution Output Screenshots
+
+### 1. Verify Compiler & NUMA Topology
+![Verify Compiler & NUMA Topology](<screenshots/1-Verify Compiler & NUMA Topology.png>)
+
+### 2. Coherence Simulation
+![Coherence Simulation](screenshots/2-coherence_sim.png)
+
+### 2.1 Execution Coherence Simulation
+![Execution Coherence Simulation](<screenshots/2.1-Execution coherence_sim.png>)
+
+### 3. False Sharing
+![False Sharing](screenshots/3-false_sharing.png)
+
+### 4. NUMA Sweep
+![NUMA Sweep](screenshots/4-numa_sweep.png)
+
+### 5. Compare NUMA
+![Compare NUMA](screenshots/5-compare_numa.png)
+
 
 ## 📊 Key Observations
 - **Protocol Efficiency:** **MESI** eliminates upgrade bus traffic on private data via silent `E -> M` transitions. **MOESI** eliminates forced memory write-backs on shared dirty lines via direct cache-to-cache (`O -> S`) transfers.
 - **False Sharing Impact:** Adjacent counters suffer heavy invalidation traffic and fail to scale with additional threads. Padding counters to separate 64-byte cache lines drastically improves throughput and scalability.
 - **NUMA Locality:** Keeping threads and their allocated memory on the same NUMA node avoids cross-interconnect latency penalties on multi-socket architectures.
+
+## Repository Structure
+
+```text
+├── screenshots/
+│   ├── 1-Verify Compiler & NUMA Top...
+│   ├── 2-coherence_sim.png
+│   ├── 2.1-Execution coherence_sim.png
+│   ├── 3-false_sharing.png
+│   ├── 4-numa_sweep.png
+│   ├── 5-compare_numa.png
+│   └── readme.md
+├── README.md
+├── coherence_sim.py
+├── compare_numa.c
+├── false_sharing.c
+└── numa_sweep.c
